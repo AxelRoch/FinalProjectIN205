@@ -4,21 +4,25 @@ import java.sql.Date;
 
 public class Emprunt {
 	private Integer id;
-    private Integer idMembre;
-    private Integer idLivre;
+    private Membre membre;
+    private Livre livre;
     private Date dateEmprunt;
     private	Date dateRetour;
 	
 	public Emprunt() {
 		super();
 	}
-	public Emprunt(???) {
+	
+	public Emprunt(Membre membre, Livre livre, Date dateEmprunt, Date dateRetour) {
 		this();
-		
+		this.membre = membre;
+		this.livre : livre;
+		this.dateEmprunt = dateEmprunt;
+		this.dateRetour = dateRetour;
 	}
-	public Emprunt(???) {
-		this(??);
-		
+	public Emprunt(Integer id, Membre membre, Livre livre, Date dateEmprunt, Date dateRetour) {
+		this(membre, livre, dateEmprunt, dateRetour);
+		this.id = id;
 	}
 	
 	public Integer getId() {
@@ -27,17 +31,17 @@ public class Emprunt {
 	public void setId(Integer id) {
 		this.id = id;
     }
-    public Integer getIdMembre() {
-		return idMembre;
+    public Membre getmembre() {
+		return membre;
 	}
-	public void setIdMembre(Integer idMembre) {
-		this.idMembre = idMembre;
+	public void setmembre(Membre membre) {
+		this.membre = membre;
     }
-    public Integer getIdLivre() {
-		return idLivre;
+    public Livre getlivre() {
+		return livre;
 	}
-	public void setIdLivre(Integer idLivre) {
-		this.idLivre = idLivre;
+	public void setlivre(Livre livre) {
+		this.livre = livre;
 	}
 	public Date getDateEmprunt() {
 		return dateEmprunt;
@@ -56,8 +60,8 @@ public class Emprunt {
 	public String toString() {
 		return getClass().getSimpleName() + "{" 
 				+ "Id: " + id + ", "
-                + "IdMembre:" + idMembre + ", "
-                + "IdLivre:" + idLivre + ", "
+                + "membre:" + membre + ", "
+                + "livre:" + livre + ", "
                 + "DateEmprunt: " + dateEmprunt + ", "
                 + "DateRetour: " + dateRetour
 				+ "}";

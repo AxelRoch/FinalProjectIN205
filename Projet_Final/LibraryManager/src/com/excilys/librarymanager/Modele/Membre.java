@@ -1,7 +1,7 @@
 package com.excilys.librarymanager.Modele;
 
 
-public class Livre {
+public class Membre {
 	private Integer id;
     private String nom;
     private String prenom;
@@ -10,18 +10,19 @@ public class Livre {
     private String telephone;
     private Abonnement abonnement;
 	
-	public Livre() {
+	public Membre() {
 		super();
-	}
-	public Livre(String nom, String prenom, Abonnement abonnement) {
+    }
+    
+	public Membre(String nom, String prenom, Abonnement abonnement) {
         this();
         this.nom = nom;
         this.prenom = prenom;
         this.abonnement=abonnement;
     }
 
-    public Livre(Integer id, String nom, String prenom, Abonnement abonnement) {
-        this(nom, prenom);
+    public Membre(Integer id, String nom, String prenom, Abonnement abonnement) {
+        this(nom, prenom, abonnement);
         this.id = id;
     }
 
@@ -55,6 +56,22 @@ public class Livre {
 
     public void setEmail(String email) {
 		this.email = email;
+    }
+    
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+		this.telephone = telephone;
+    }
+    
+    public String getAbonnement() {
+        return abonnement
+    }
+
+    public void setAbonnment(String email) {
+		this.abonnement = abonnement;
 	}
 	
 	@Override
