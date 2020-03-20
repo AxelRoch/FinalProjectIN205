@@ -25,6 +25,12 @@ public class Membre {
         this(nom, prenom, abonnement);
         this.id = id;
     }
+    public Membre(Integer id, String nom, String prenom, String adresse, String email, String telephone, Abonnement abonnement) {
+        this(id,nom, prenom, abonnement);
+        this.adresse = adresse;
+	this.email = email;
+	this.telephone = telephone;
+    }
 
     public Integer getId() {
         return id;
@@ -57,6 +63,14 @@ public class Membre {
     public void setEmail(String email) {
 		this.email = email;
     }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+		this.adresse = adresse;
+    }
     
     public String getTelephone() {
         return telephone;
@@ -70,7 +84,7 @@ public class Membre {
         return abonnement
     }
 
-    public void setAbonnment(String email) {
+    public void setAbonnement(String email) {
 		this.abonnement = abonnement;
 	}
 	
