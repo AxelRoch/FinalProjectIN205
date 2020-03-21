@@ -118,10 +118,10 @@ public class MembreDaoImpl implements MembreDao
 			if(res.next()){
 				id = res.getInt(1);				
 			}
-            Membre membre = new Membre(nom, prenom, adresse, email, telephone, abonnement);
+            Membre membre = new Membre(id, nom, prenom, adresse, email, telephone, abonnement);
 			System.out.println("CREATE: " + membre);
 		} catch (SQLException e) {
-			throw new DaoException("Probleme lors de la creation du film: " + film, e);
+			throw new DaoException("Probleme lors de la creation du membre: " + membre, e);
 		} finally {
 			try {
 				res.close();
@@ -174,7 +174,6 @@ public class MembreDaoImpl implements MembreDao
 				e.printStackTrace();
 			}
 		}
-		return membre.getId();
     }
 
     @Override
@@ -191,7 +190,7 @@ public class MembreDaoImpl implements MembreDao
 			connection.close();
 			System.out.println("DELETE: membre numéro " + id);
 		} catch (SQLException e) {
-			throw new DaoException("Probleme lors de la suppression du membre: " + membre, e);
+			throw new DaoException("Probleme lors de la suppression du membre", e);
 		}  finally {
 			try {
 				preparedStatement.close();
@@ -206,6 +205,7 @@ public class MembreDaoImpl implements MembreDao
         }
     }
 
+	@Override 
     public int count() throws DaoException
     {
         Connection connection = null;
@@ -240,7 +240,6 @@ public class MembreDaoImpl implements MembreDao
 				e.printStackTrace();
 			}
 		}
-		return membre;
+		return count;
     }
-
 }

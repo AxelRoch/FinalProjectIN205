@@ -22,12 +22,12 @@ public class LivreDaoImpl implements LivreDao
 		  return instance;
 	  }
 
-    private static final String SELECT_ALL_QUERY = "SELECT id, nom, prenom, adresse, email, telephone, abonnement FROM membre ORDER BY nom, prenom;");
-    private static final String SELECT_ONE_QUERY = "SELECT id, nom, prenom, adresse, email, telephone, abonnement FROM membre WHERE id = ?;";
-    private static final String CREATE_QUERY =  "INSERT INTO membre(nom, prenom, adresse, email, telephone, abonnement) VALUES (?, ?, ?, ?, ?, ?);";
-    private static final String UPDATE_QUERY = "UPDATE membre SET nom = ?, prenom = ?, adresse = ?, email = ?, telephone = ?, abonnement = ? WHERE id = ?;";
-    private static final String DELETE_QUERY = "DELETE FROM membre WHERE id = ?;";
-    private static final String COUNT_QUERY = "SELECT COUNT(id) AS count FROM membre;";
+    private static final String SELECT_ALL_QUERY = "SELECT id, titre, auteur, isbn FROM livre;");
+    private static final String SELECT_ONE_QUERY = "SELECT id, titre, auteur, isbn FROM livre WHERE id = ?;";
+    private static final String CREATE_QUERY =  "INSERT INTO livre(titre, auteur, isbn) VALUES (?, ?, ?);";
+    private static final String UPDATE_QUERY = "UPDATE livre SET titre = ?, auteur = ?, isbn = ? WHERE id = ?;";
+    private static final String DELETE_QUERY = "DELETE FROM livre WHERE id = ?;";
+    private static final String COUNT_QUERY = "SELECT COUNT(id) AS count FROM livre;";
     
     @Override
     public List<Livre> getList() throws DaoException{
@@ -39,7 +39,7 @@ public class LivreDaoImpl implements LivreDao
             )
             {
 			while(res.next()) {
-				Livre livre = new Livre(res.getInt("id"), res.getString("titre"), res.getString("auteur"), res.getInt("isbn"));
+				Livre livre = new Livre(res.getInt("id"), res.getString("titre"), res.getString("auteur"), res.getString("isbn"));
 				livres.add(livre);
 			}
 			System.out.println("GET: " + livres);
@@ -66,7 +66,7 @@ public class LivreDaoImpl implements LivreDao
 				livre.setId(res.getInt("id"));
 				livre.setTitre(res.getString("titre"));
                 livre.setAuteur(res.getString("auteur"));
-                livre.setIsbn(res.getInt("isbn"));							
+                livre.setIsbn(res.getString("isbn"));							
 			}
 			
 			System.out.println("GET: " + livre);
@@ -93,7 +93,7 @@ public class LivreDaoImpl implements LivreDao
     }
     
     @Override
-    public int create(String titre, String auteur, int isbn) throws DaoException
+    public int create(String titre, String auteur, String isbn) throws DaoException
     {
         ResultSet res = null;
 		Connection connection = null;
@@ -105,14 +105,14 @@ public class LivreDaoImpl implements LivreDao
             
 			preparedStatement.setString(1, titre);
             preparedStatement.setString(2, auteur);
-            preparedStatement.setInt(3, isbn);   ///vérifier que setInt existe !!
+            preparedStatement.setString(3, isbn);
 			preparedStatement.executeUpdate();
 			res = preparedStatement.getGeneratedKeys();
 			if(res.next()){
 				id = res.getInt(1);				
 			}
-            Livre livre = new Livre(titre, auteur, isbn);     ///pk pas id ici ?? (same que dans membredaoimpl)
-			System.out.println("CREATE: " + membre);
+            Livre livre = new Livre(id, titre, auteur, isbn);
+			System.out.println("CREATE: " + livre);
 		} catch (SQLException e) {
 			throw new DaoException("Probleme lors de la creation du livre: " + livre, e);
 		} finally {
@@ -163,10 +163,9 @@ public class LivreDaoImpl implements LivreDao
 				e.printStackTrace();
 			}
 		}
-		return livre.getId();
     }
     
-    @Override  ///n'est pas dans membredaoimpl
+    @Override
     public void delete(int id) throws DaoException
     {
         Connection connection = null;
@@ -180,7 +179,7 @@ public class LivreDaoImpl implements LivreDao
 			connection.close();
 			System.out.println("DELETE: livre numéro " + id);
 		} catch (SQLException e) {
-			throw new DaoException("Probleme lors de la suppression du livre: " + membre, e);
+			throw new DaoException("Probleme lors de la suppression du livre", e);
 		}  finally {
 			try {
 				preparedStatement.close();
@@ -194,10 +193,45 @@ public class LivreDaoImpl implements LivreDao
 			}
         }
     }
-    
+	
+
+	@Override 
     public int count() throws DaoException
     {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
         
+        try {
+			connection = ConnectionManager.getConnection();
+            preparedStatement = connection.prepareStatement(COUNT_QUERY);
+            int count = -1;
+            
+			res = preparedStatement.executeQuery();
+			if(res.next()) {
+				count = res.getInt("count");
+			}
+
+		} catch (SQLException e) {
+			throw new DaoException("Probleme lors du décompte du nombre de livres", e);
+		} finally {
+			try {
+				res.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				preparedStatement.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return count;
     }
+}
     
 }
