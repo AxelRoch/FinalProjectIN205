@@ -54,6 +54,9 @@ public class EmpruntReturnServlet extends HttpServlet {
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
 		doGet(request, response);
+		EmpruntService empruntService = empruntService.getInstance();
+		int idEmprunt = (int) response.getAttribute("idDeLEmprunt");
+		empruntService.returnBook(idEmprunt);
 	}
     
     
