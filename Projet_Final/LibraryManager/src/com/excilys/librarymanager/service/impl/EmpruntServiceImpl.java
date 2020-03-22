@@ -160,7 +160,7 @@ public class EmpruntServiceImpl implements EmpruntService {
                 nbMax = 5;
                 break;
             case "VIP" :
-                nbMax = 20
+                nbMax = 20;
                 break;
         }
         return nbEmprunts < nbMax;

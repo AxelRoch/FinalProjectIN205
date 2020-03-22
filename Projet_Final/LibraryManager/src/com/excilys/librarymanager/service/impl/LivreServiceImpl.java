@@ -42,14 +42,13 @@ public class LivreServiceImpl implements LivreService {
 		List<Livre> livresDispo = new ArrayList<>();
 
 		try{
-			livres = livreDao.getList()
+			livres = livreDao.getList();
 
 			for (Livre livre : livres)
 			{
 				if (emprunt.isLivreDispo(livre.getId())){livresDispo.add(livre);}
 			}
-			}
-		} catch (DaoException e1) {
+			} catch (DaoException e1) {
 			System.out.println(e1.getMessage());
 		}
 		return livresDispo;		

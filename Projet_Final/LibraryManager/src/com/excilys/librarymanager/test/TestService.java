@@ -1,9 +1,9 @@
 package com.excilys.librarymanager.test;
 
-import com.excilys.librarymanager.model.Membre;
-import com.excilys.librarymanager.model.Livre;
-import com.excilys.librarymanager.model.Emprunt;
-import com.excilys.librarymanager.model.Abonnement;
+import com.excilys.librarymanager.modele.Membre;
+import com.excilys.librarymanager.modele.Livre;
+import com.excilys.librarymanager.modele.Emprunt;
+import com.excilys.librarymanager.modele.Abonnement;
 
 import com.excilys.librarymanager.service.LivreServiceImpl;
 import com.excilys.librarymanager.service.MembreServiceImpl;
@@ -13,7 +13,7 @@ import com.excilys.librarymanager.exception.ServiceException;
 import java.time.LocalDate;
 
 
-public class TestModele{
+public class TestService{
     public static void main( String[] args ){
 
         Membre alizee = new Membre(0001, "basset", "alizee", "le deves", "alizee.basset@ensta-paris.fr", "0123456789", Abonnement.BASIC);
