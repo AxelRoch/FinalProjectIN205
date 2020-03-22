@@ -1,10 +1,12 @@
 package com.excilys.librarymanager.dao.impl;
+
+import java.time.LocalDate;
 import java.util.List;
 
 import com.excilys.librarymanager.exception.DaoException;
 import com.excilys.librarymanager.modele.Emprunt;
 import com.excilys.librarymanager.dao.EmpruntDao;
-import com.excilys.librarymanager.Modele.Abonnement;
+import com.excilys.librarymanager.modele.Abonnement;
 import com.excilys.librarymanager.persistence.ConnectionManager;
 
 import java.sql.ResultSet;
@@ -37,7 +39,7 @@ public class EmpruntDaoImpl implements EmpruntDao
 		List<Emprunt> emprunts = new ArrayList<>();
 		MembreDaoImpl dataMembres = MembreDaoImpl.getInstance();
 		LivreDaoImpl dataLivres = LivreDaoImpl.getInstance();
-		dataMembres.getById(id)
+		dataMembres.getById(id);
 		try (Connection connection = ConnectionManager.getConnection();
 			 PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_QUERY);
 			 ResultSet res = preparedStatement.executeQuery();
@@ -45,7 +47,7 @@ public class EmpruntDaoImpl implements EmpruntDao
 			
             {
 			while(res.next()) {
-				Membre membre = new Membre(res.getInt("idMembre"), res.getString("nom"), res.getString("prenom"), res.getString("adresse"), res.getString("email"), res.getString("telephone"), Abonnement.valueOf(res.getString("abonnement")) ))
+				Membre membre = new Membre(res.getInt("idMembre"), res.getString("nom"), res.getString("prenom"), res.getString("adresse"), res.getString("email"), res.getString("telephone"), Abonnement.valueOf(res.getString("abonnement")) );
 
 				Livre livre = new Livre(res.getInt("idLivre"),  res.getString("titre"), res.getString("auteur"), res.getString("isbn"));
 
@@ -66,7 +68,7 @@ public class EmpruntDaoImpl implements EmpruntDao
 		List<Emprunt> emprunts = new ArrayList<>();
 		MembreDaoImpl dataMembres = MembreDaoImpl.getInstance();
 		LivreDaoImpl dataLivres = LivreDaoImpl.getInstance();
-		dataMembres.getById(id)
+		dataMembres.getById(id);
 		try (Connection connection = ConnectionManager.getConnection();
 			 PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CURRENT_QUERY);
 			 ResultSet res = preparedStatement.executeQuery();
@@ -74,7 +76,7 @@ public class EmpruntDaoImpl implements EmpruntDao
 			
             {
 			while(res.next()) {
-				Membre membre = new Membre(res.getInt("idMembre"), res.getString("nom"), res.getString("prenom"), res.getString("adresse"), res.getString("email"), res.getString("telephone"), Abonnement.valueOf(res.getString("abonnement")) ))
+				Membre membre = new Membre(res.getInt("idMembre"), res.getString("nom"), res.getString("prenom"), res.getString("adresse"), res.getString("email"), res.getString("telephone"), Abonnement.valueOf(res.getString("abonnement")) );
 
 				Livre livre = new Livre(res.getInt("idLivre"),  res.getString("titre"), res.getString("auteur"), res.getString("isbn"));
 
@@ -104,7 +106,7 @@ public class EmpruntDaoImpl implements EmpruntDao
 			ResultSet res = preparedStatement.executeQuery();
             
 			while(res.next()) {
-				Membre membre = new Membre(res.getInt("idMembre"), res.getString("nom"), res.getString("prenom"), res.getString("adresse"), res.getString("email"), res.getString("telephone"), Abonnement.valueOf(res.getString("abonnement")) ))
+				Membre membre = new Membre(res.getInt("idMembre"), res.getString("nom"), res.getString("prenom"), res.getString("adresse"), res.getString("email"), res.getString("telephone"), Abonnement.valueOf(res.getString("abonnement")) );
 
 				Livre livre = new Livre(res.getInt("idLivre"),  res.getString("titre"), res.getString("auteur"), res.getString("isbn"));
 
@@ -135,7 +137,7 @@ public class EmpruntDaoImpl implements EmpruntDao
 			ResultSet res = preparedStatement.executeQuery();
             
 			while(res.next()) {
-				Membre membre = new Membre(res.getInt("idMembre"), res.getString("nom"), res.getString("prenom"), res.getString("adresse"), res.getString("email"), res.getString("telephone"), Abonnement.valueOf(res.getString("abonnement")) ))
+				Membre membre = new Membre(res.getInt("idMembre"), res.getString("nom"), res.getString("prenom"), res.getString("adresse"), res.getString("email"), res.getString("telephone"), Abonnement.valueOf(res.getString("abonnement")) );
 
 				Livre livre = new Livre(res.getInt("idLivre"),  res.getString("titre"), res.getString("auteur"), res.getString("isbn"));
 
@@ -164,7 +166,7 @@ public class EmpruntDaoImpl implements EmpruntDao
 			preparedStatement.setInt(1, id);
 			res = preparedStatement.executeQuery();
 			if(res.next()) {
-				Membre membre = new Membre(res.getInt("idMembre"), res.getString("nom"), res.getString("prenom"), res.getString("adresse"), res.getString("email"), res.getString("telephone"), Abonnement.valueOf(res.getString("abonnement")) ))
+				Membre membre = new Membre(res.getInt("idMembre"), res.getString("nom"), res.getString("prenom"), res.getString("adresse"), res.getString("email"), res.getString("telephone"), Abonnement.valueOf(res.getString("abonnement")) );
 
 				Livre livre = new Livre(res.getInt("idLivre"),  res.getString("titre"), res.getString("auteur"), res.getString("isbn"));
 
@@ -247,7 +249,7 @@ public class EmpruntDaoImpl implements EmpruntDao
 
 	
 	@Override
-	public void update(com.excilys.librarymanager.Modele.Emprunt emprunt) throws DaoException
+	public void update(Emprunt emprunt) throws DaoException
 	{
         Connection connection = null;
 		PreparedStatement preparedStatement = null;

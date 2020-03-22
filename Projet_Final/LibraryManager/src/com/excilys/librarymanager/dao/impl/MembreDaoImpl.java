@@ -22,7 +22,7 @@ public class MembreDaoImpl implements MembreDao
 		return instance;
 	}
 
-    private static final String SELECT_ALL_QUERY = "SELECT id, nom, prenom, adresse, email, telephone, abonnement FROM membre ORDER BY nom, prenom;");
+    private static final String SELECT_ALL_QUERY = "SELECT id, nom, prenom, adresse, email, telephone, abonnement FROM membre ORDER BY nom, prenom;";
     private static final String SELECT_ONE_QUERY = "SELECT id, nom, prenom, adresse, email, telephone, abonnement FROM membre WHERE id = ?;";
     private static final String CREATE_QUERY =  "INSERT INTO membre(nom, prenom, adresse, email, telephone, abonnement) VALUES (?, ?, ?, ?, ?, ?);";
     private static final String UPDATE_QUERY = "UPDATE membre SET nom = ?, prenom = ?, adresse = ?, email = ?, telephone = ?, abonnement = ? WHERE id = ?;";
@@ -67,8 +67,8 @@ public class MembreDaoImpl implements MembreDao
 				membre.setId(res.getInt("id"));
 				membre.setNom(res.getString("nom"));
                 membre.setPrenom(res.getString("prenom"));
-                membre.setAdresse(res.getString("adresse"))
-                membre.setEmail(res.getString("email");
+                membre.setAdresse(res.getString("adresse"));
+                membre.setEmail(res.getString("email"));
 				membre.setTelephone(res.getString("telephone"));
 				membre.setAbonnment(Abonnement.valueOf(res.getString("abonnement")));							
 			}
@@ -184,7 +184,7 @@ public class MembreDaoImpl implements MembreDao
 		try {
 			connection = ConnectionManager.getConnection();
 			preparedStatement = connection.prepareStatement(DELETE_QUERY);
-			preparedStatement.setInt(1, id));
+			preparedStatement.setInt(1, id);
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 			connection.close();

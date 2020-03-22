@@ -1,5 +1,6 @@
-package com.excilys.librarymanager.Modele;
+package com.excilys.librarymanager.modele;
 
+import com.excilys.librarymanager.modele.Abonnement;
 
 public class Membre {
 	private Integer id;
@@ -80,8 +81,8 @@ public class Membre {
 		this.telephone = telephone;
     }
     
-    public String getAbonnement() {
-        return abonnement
+    public Abonnement getAbonnement() {
+        return abonnement;
     }
 
     public void setAbonnement(String email) {

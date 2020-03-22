@@ -22,7 +22,7 @@ public class LivreDaoImpl implements LivreDao
 		  return instance;
 	  }
 
-    private static final String SELECT_ALL_QUERY = "SELECT id, titre, auteur, isbn FROM livre;");
+    private static final String SELECT_ALL_QUERY = "SELECT id, titre, auteur, isbn FROM livre;";
     private static final String SELECT_ONE_QUERY = "SELECT id, titre, auteur, isbn FROM livre WHERE id = ?;";
     private static final String CREATE_QUERY =  "INSERT INTO livre(titre, auteur, isbn) VALUES (?, ?, ?);";
     private static final String UPDATE_QUERY = "UPDATE livre SET titre = ?, auteur = ?, isbn = ? WHERE id = ?;";
@@ -173,7 +173,7 @@ public class LivreDaoImpl implements LivreDao
 		try {
 			connection = ConnectionManager.getConnection();
 			preparedStatement = connection.prepareStatement(DELETE_QUERY);
-			preparedStatement.setInt(1, id));
+			preparedStatement.setInt(1, id);
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 			connection.close();
@@ -232,6 +232,4 @@ public class LivreDaoImpl implements LivreDao
 		}
 		return count;
     }
-}
-    
 }
