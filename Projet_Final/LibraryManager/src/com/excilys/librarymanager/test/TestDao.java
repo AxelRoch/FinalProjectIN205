@@ -18,8 +18,8 @@ public class TestDao
     {
 
         EmpruntDaoImpl dataEmprunts = EmpruntDaoImpl.getInstance();
-        MembrdataEmprunts dataMembres = MembrdataEmprunts.getInstance();
-        LivrdataEmprunts dataLivres = LivrdataEmprunts.getInstance();
+        MembreDaoImpl dataMembres = MembreDaoImpl.getInstance();
+        LivreDaoImpl dataLivres = LivreDaoImpl.getInstance();
 
         Membre alizee = new Membre(0001, "basset", "alizee", "le deves", "alizee.basset@ensta-paris.fr", "0123456789", Abonnement.BASIC);
         Membre axel = new Membre(0002, "rochel", "axel", "palaiseau", "axel.rochel@ensta-paris.fr", "9876543210", Abonnement.VIP);
@@ -27,19 +27,5 @@ public class TestDao
         Livre livre =new Livre(0001, "Java Pour Les Nuls", "Inconnu","0001");
 
         Emprunt emprunt = new Emprunt(0001, axel, livre, LocalDate.of(2019,11,1), LocalDate.of(2020,03,24));
-
-        try {
-            dataMembres.create(madeleine.getNom(), madeleine.getPrenom(), madeleine.getAdresse(), madeleine.getEmail(),
-                    madeleine.getTelephone());
-            dataLivres.create(roman.getTitre(), roman.getAuteur(), roman.getIsbn());
-            dataEmprunts.create(emprunt.getMembre().getKey(), emprunt.getLivre().getId(), emprunt.getDateEmprunt());
-
-            List<Emprunt> lEmprunts = new dataEmprunts.getList();
-            List<Emprunt> lMembres = new dataMembres.getList();
-            List<Emprunt> lLivres = new dataLivres.getList();
-        } catch (DaoException error) {
-        }
-    }
-}
     }
 }
