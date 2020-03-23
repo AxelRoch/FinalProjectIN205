@@ -57,8 +57,7 @@ public class EmpruntReturnServlet extends HttpServlet {
 		EmpruntService empruntService = empruntService.getInstance();
 		int idEmprunt = (int) response.getAttribute("idDeLEmprunt");
 		empruntService.returnBook(idEmprunt);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/emprunt_list.jsp");
 	}
     
-    
-    // REDIRECTION VERS LISTE EMPRUNTS EN COURS ??? OU ET COMMENT ??
 }
