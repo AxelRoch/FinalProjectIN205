@@ -21,32 +21,26 @@ import com.excilys.librarymanager.service.impl.EmpruntService;
 public class LivreDeleteServlet extends HttpServlet {	
 	
 	/*
-	 *  La méthode doGet est le point d'entrée lors d'une requete GET
+	 *  La mÃ©thode doGet est le point d'entrÃ©e lors d'une requete GET
 	 *  Dans notre cas on traite tous les cas de figure en passant par doGet
 	 *  Cependant pour vraiment respecter les conventions Http, il est de bonne pratique
-	 *  de gérer les suppressions dans la méthode doDelete, les modification dans la méthode
+	 *  de gÃ©rer les suppressions dans la mÃ©thode doDelete, les modification dans la mÃ©thode
 	 *  doPut etc ...
 	 *  A noter qu'il existe des "logger" pour remplacer nos "Sysout" (System.out.println) qui permettent 
-	 *  de formatter l'affichage lors du débug dans la console (Affichant la date, l'heure, la classe dans 
-	 *  laquelle le logger effectue l'affichage). Plusieurs niveaux d'affichage peuvent être utilisés 
+	 *  de formatter l'affichage lors du dÃ©bug dans la console (Affichant la date, l'heure, la classe dans 
+	 *  laquelle le logger effectue l'affichage). Plusieurs niveaux d'affichage peuvent Ãªtre utilisÃ©s 
 	 *  (info, debug, error, warn, etc...).
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        EmpruntService empruntService = empruntService.getInstance();
+		int idDuLivre = (int) request.getAttribute("idDuLivre");
+		LivreService livreService = livreService.getInstance();
+		Livre livre = livreService.getById(idDuLivre);
+		request.setAttribute("idDuLivre", idDuLivre);
+		request.setAttribute("titre", livre->titre);
+		request.setAttribute("auteur", livre->auteur);
+		request.setAttribute("isbn", livre->isbn);
         
-        List<Emprunt> emprunts = new ArrayList<>();
-
-        try {
-            emprunts = EmpruntService.getListCurrent();
-        } catch (ServiceException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-
-        ///ENONCE CHELOU, PAS FAIT
-
-        request.setAttribute("emprunts", emprunts);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_delete.jsp");
 		dispatcher.forward(request, response);
 
@@ -55,6 +49,12 @@ public class LivreDeleteServlet extends HttpServlet {
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
 		doGet(request, response);
+		int idDuLivre = (int) request.getAttribute("idDuLivre");
+		LivreService livreService = livreService.getInstance();
+		int i=livreService.delete(idDuLivre);
+		//if i =!-1 ... ?
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_list.jsp");
+
 	}
     
 }
