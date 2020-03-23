@@ -7,13 +7,14 @@ import com.excilys.librarymanager.dao.*;
 import com.excilys.librarymanager.dao.impl.*;
 import com.excilys.librarymanager.exception.*;
 import com.excilys.librarymanager.modele.*;
+import com.excilys.librarymanager.service.*;
 
 
 public class LivreServiceImpl implements LivreService {
 
     private static LivreServiceImpl instance;
 	private LivreServiceImpl() { }	
-	public static LivreService getInstance() {
+	public static LivreServiceImpl getInstance() {
 		if(instance == null) {
 			instance = new LivreServiceImpl();
 		}

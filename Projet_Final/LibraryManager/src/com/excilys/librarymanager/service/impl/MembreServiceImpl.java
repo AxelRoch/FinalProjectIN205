@@ -7,6 +7,7 @@ import com.excilys.librarymanager.dao.*;
 import com.excilys.librarymanager.dao.impl.*;
 import com.excilys.librarymanager.exception.*;
 import com.excilys.librarymanager.modele.*;
+import com.excilys.librarymanager.service.*;
 
 
 

@@ -8,7 +8,7 @@ L'erreur exacte est la suivante :
 ```./com/excilys/librarymanager/persistence/ConnectionManager.java:6: error: package org.h2.jdbcx does not exist```
 ```import org.h2.jdbcx.JdbcDataSource;```
 
-h2 a pourtant bien été installé sur nos pc.
+(h2 a pourtant bien été installé sur nos pc.))
 
 - Les lignes de code utilisées dans le terminal pour tester sont les suivantes :
 Exercice 1 : ```javac com/excilys/librarymanager/test/TestModele.java com/excilys/librarymanager/modele/*.java```

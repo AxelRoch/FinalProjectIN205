@@ -11,12 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.librarymanager.exception.ServiceException;
-import com.excilys.librarymanager.Modele.Livre;
-import com.excilys.librarymanager.Modele.Membre;
-import com.excilys.librarymanager.Modele.Emprunt;
-import com.excilys.librarymanager.service.impl.LivreService;
-import com.excilys.librarymanager.service.impl.MembreService;
-import com.excilys.librarymanager.service.impl.EmpruntService;
+import com.excilys.librarymanager.modele.Livre;
+import com.excilys.librarymanager.modele.Membre;
+import com.excilys.librarymanager.modele.Emprunt;
+import com.excilys.librarymanager.service.impl.*;
 
 public class LivreDetailsServlet extends HttpServlet {	
 	
@@ -41,10 +39,10 @@ public class LivreDetailsServlet extends HttpServlet {
 		List<Emprunt> emprunts = new ArrayList<>();
 		emprunts=empruntService.getListCurrentByLivre(id);
 
-		request.setAttribute("idDuLivre", livre->id);
-        request.setAttribute("Titre", livre->titre);
-        request.setAttribute("Auteur", livre->auteur);
-        request.setAttribute("Isbn", livre->isbn);
+		request.setAttribute("idDuLivre", livre.getId());
+        request.setAttribute("Titre", livre.getTitre());
+        request.setAttribute("Auteur", livre.getAuteur());
+        request.setAttribute("Isbn", livre.getIsbn());
         request.setAttribute("emprunts", emprunts); 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_details.jsp");
 		dispatcher.forward(request, response);
@@ -59,11 +57,11 @@ public class LivreDetailsServlet extends HttpServlet {
 		String auteur = (String) response.getAttribute("Auteur");
 		String isbn = (String) response.getAttribute("Isbn");
 		Livre livre = new livre();
-		livre->id=idDuLivre;
-		livre->titre=titre;
-		livre->auteur = auteur;
-		livre->isbn =isbn;
-		int i =livreService.update(livre);
+		livre.setLivre(idDuLivre);
+		livre.setTitre(titre);
+		livre.setAuteur()= auteur;
+		livrefetIsbn() =isbn;
+		livreService.update(livre);
 	}
 	
 }

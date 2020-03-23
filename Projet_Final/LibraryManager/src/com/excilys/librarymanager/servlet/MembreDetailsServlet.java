@@ -11,12 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.librarymanager.exception.ServiceException;
-import com.excilys.librarymanager.Modele.Livre;
-import com.excilys.librarymanager.Modele.Membre;
-import com.excilys.librarymanager.Modele.Emprunt;
-import com.excilys.librarymanager.service.impl.LivreService;
-import com.excilys.librarymanager.service.impl.MembreService;
-import com.excilys.librarymanager.service.impl.EmpruntService;
+import com.excilys.librarymanager.modele.Livre;
+import com.excilys.librarymanager.modele.Membre;
+import com.excilys.librarymanager.modele.Emprunt;
+import com.excilys.librarymanager.service.impl.*;
 
 public class MembreDetailsServlet extends HttpServlet {	
 	
@@ -66,14 +64,14 @@ public class MembreDetailsServlet extends HttpServlet {
         String telephone = (String) response.getAttribute("telephone");
         Abonnement abonnement = (Abonnement) response.getAttribute("abonnement");
 		Membre membre = new Membre();
-		membre->id = idDuMembre;
-		membre->prenom = prenom;
-		membre->nom = nom;
-        membre->adresse = adresse;
-        membre->email = email;
-        membbre->telephone = telephone;
-        membre->abonnement = abonnement;
-		int i =membreService.update(membre);
+		membre.setId(idDuMembre);
+		membre.setPrenom(prenom);
+		membre.setNom(nom);
+        membre.setAdresse(adresse);
+        membre.setEmail(email);
+        membbre.setTelephone(telephone);
+        membre.setAbonnement(abonnement);
+		membreService.update(membre);
 	}
 	
 }
