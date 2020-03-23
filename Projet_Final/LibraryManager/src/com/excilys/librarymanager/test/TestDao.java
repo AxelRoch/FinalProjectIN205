@@ -4,8 +4,6 @@ import com.excilys.librarymanager.dao.impl.*;
 import com.excilys.librarymanager.dao.*;
 import com.excilys.librarymanager.modele.*;
 
-import jdk.vm.ci.meta.Local;
-
 import com.excilys.librarymanager.exception.DaoException;
 
 import java.sql.Date;
@@ -27,6 +25,8 @@ public class TestDao
         Livre livre =new Livre(0001, "Java Pour Les Nuls", "Inconnu","0001");
 
         Emprunt emprunt = new Emprunt(0001, alizee, livre, LocalDate.of(2019,11,1), LocalDate.of(2020,03,24));
+
+        System.out.println("ok");
 
         try {
             daoMembres.create(alizee.getNom(), alizee.getPrenom(), alizee.getAdresse(), alizee.getEmail(),alizee.getTelephone());

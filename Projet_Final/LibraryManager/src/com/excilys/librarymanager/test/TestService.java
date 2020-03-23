@@ -5,9 +5,9 @@ import com.excilys.librarymanager.modele.Livre;
 import com.excilys.librarymanager.modele.Emprunt;
 import com.excilys.librarymanager.modele.Abonnement;
 
-import com.excilys.librarymanager.service.LivreServiceImpl;
-import com.excilys.librarymanager.service.MembreServiceImpl;
-import com.excilys.librarymanager.service.EmpruntServiceImpl;
+import com.excilys.librarymanager.service.impl.LivreServiceImpl;
+import com.excilys.librarymanager.service.impl.MembreServiceImpl;
+import com.excilys.librarymanager.service.impl.EmpruntServiceImpl;
 
 import com.excilys.librarymanager.exception.ServiceException;
 import java.time.LocalDate;

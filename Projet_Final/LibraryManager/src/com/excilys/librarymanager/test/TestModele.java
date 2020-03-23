@@ -5,6 +5,9 @@ import java.time.LocalDate;
 
 
 import com.excilys.librarymanager.modele.*;
+import com.excilys.librarymanager.modele.Livre;
+import com.excilys.librarymanager.modele.Abonnement;
+
 
 
 public class TestModele{
