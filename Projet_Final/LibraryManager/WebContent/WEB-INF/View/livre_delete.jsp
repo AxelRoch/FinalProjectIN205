@@ -21,16 +21,16 @@
       </div>
       <div class="row">
       <div class="container">
-      <h5>Suppression du livre n°42</h5> <!-- TODO : afficher l'id du livre au lieu de 42 -->
+      <h5>Suppression du livre ${idDuLivre}</h5> 
         <div class="row">
-          <p>Êtes-vous sûr de vouloir supprimer le livre TitreDuLivre de NomDeLAuteur (code isbnDuLivre) ?</p> <!-- TODO : compléter les trois informations ci-contre -->
+          <p>ï¿½tes-vous sï¿½r de vouloir supprimer le livre ${titre} de ${auteur} (code ${isbn}) ?</p> 
 	      <form action="/LibraryManager/livre_delete" method="post" class="col s12">
-            <input type="hidden" value="idDuLivre" name="id"> <!-- TODO : remplacer idDuLivre par l'id du livre -->
+            <input type="hidden" value=${idDuLivre} name="id"> 
 	        <div class="row center">
 	          <button class="btn waves-effect waves-light red" type="submit">Supprimer
 	            <i class="material-icons right">delete</i>
 	          </button>
-	          <a class="btn waves-effect waves-light orange" href="/LibraryManager/livre_details?id=idDuLivre">Annuler</a> <!-- TODO : remplacer idDuLivre par l'id du livre -->
+	          <a class="btn waves-effect waves-light orange" href="/LibraryManager/livre_details?id=${idDuLivre}">Annuler</a> 
 	        </div>
 	      </form>
 	    </div>	    
@@ -41,3 +41,4 @@
   <jsp:include page='footer.jsp'></jsp:include>
 </body>
 </html>
+
