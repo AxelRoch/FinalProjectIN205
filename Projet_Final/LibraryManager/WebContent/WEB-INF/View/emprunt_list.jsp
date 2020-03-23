@@ -32,17 +32,20 @@
                     </tr>
                 </thead>
                 <tbody id="results">
-                
+                  <c:forEach items=${emprunts} var="emprunt">
                     <tr>
                         <td>Titre du livre, <em>de Nom de l'auteur</em></td>
-                        <td>Prénom et nom du membre emprunteur</td>
+                        <h3>${emprunt.livre.titre} ${emprunt.livre.auteur}</h3>
+                        <td>Prï¿½nom et nom du membre emprunteur</td>
+                        <h3>${emprunt.membre.prenom} ${emprunt.membre.nom}</h3>
                         <td>Date de l'emprunt</td>
+                        <h3>${emprunt.dateEmprunt}</h3>
                         <td>
-                            <a href="emprunt_return?id=idDeLEmprunt"><ion-icon class="table-item" name="log-in"></a>
+                          <a href="emprunt_return?id=idDeLEmprunt"><ion-icon class="table-item" name="log-in"></a>
                         </td>
                     </tr>
+                  </c:forEachitems>
 
-					 <!-- TODO : parcourir la liste des emprunts en cours et les afficher selon la structure d'exemple ci-dessus -->
 					 <!-- TODO : dans le champ "retour", afficher la date de retour si elle existe, et un lien vers la page de retour si la date est vide (comme dans l'exemple ci-dessus) -->
                 </tbody>
             </table>
