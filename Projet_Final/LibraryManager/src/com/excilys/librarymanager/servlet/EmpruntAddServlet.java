@@ -21,14 +21,14 @@ import com.excilys.librarymanager.service.impl.EmpruntService;
 public class EmpruntAddServlet extends HttpServlet {	
 	
 	/*
-	 *  La méthode doGet est le point d'entrée lors d'une requete GET
+	 *  La mÃ©thode doGet est le point d'entrÃ©e lors d'une requete GET
 	 *  Dans notre cas on traite tous les cas de figure en passant par doGet
 	 *  Cependant pour vraiment respecter les conventions Http, il est de bonne pratique
-	 *  de gérer les suppressions dans la méthode doDelete, les modification dans la méthode
+	 *  de gÃ©rer les suppressions dans la mÃ©thode doDelete, les modification dans la mÃ©thode
 	 *  doPut etc ...
 	 *  A noter qu'il existe des "logger" pour remplacer nos "Sysout" (System.out.println) qui permettent 
-	 *  de formatter l'affichage lors du débug dans la console (Affichant la date, l'heure, la classe dans 
-	 *  laquelle le logger effectue l'affichage). Plusieurs niveaux d'affichage peuvent être utilisés 
+	 *  de formatter l'affichage lors du dÃ©bug dans la console (Affichant la date, l'heure, la classe dans 
+	 *  laquelle le logger effectue l'affichage). Plusieurs niveaux d'affichage peuvent Ãªtre utilisÃ©s 
 	 *  (info, debug, error, warn, etc...).
 	 */
 	@Override
@@ -52,15 +52,21 @@ public class EmpruntAddServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-        request.setAttribute("Livres disponibles", livresDispo);
-        request.setAttribute("Membres pouvant emprunter", membresOk);
+        request.setAttribute("livres_dispo", livresDispo);
+        request.setAttribute("membres_ok", membresOk);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/emprunt_add.jsp");
 		dispatcher.forward(request, response);
-    }
+    	}
     
-    @Override
+    	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
 		doGet(request, response);
+		EmpruntService empruntService=empruntService.getInstance();
+		int idDuMembre = (int) response.getAttribute("idDuMembre");
+		int idDuLivre = (int) response.getAttribute("idDuLivre");
+		LocalDate dateEmprunt= new LocalDate();
+		empruntService.create(idDuMembre,idDuLivre,dateEmprunt);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/emprunt_list.jsp");
 	}
 	
 }
