@@ -25,25 +25,30 @@
             <thead>
               <tr>
                 <th>Nom</th>
-                <th>Prénom</th>
+                <th>Prï¿½nom</th>
                 <th class="hide-on-small-only">Adresse</th>
                 <th class="hide-on-small-only">E-mail</th>
-                <th class="hide-on-small-only">Téléphone</th>
-                <th>Détails</th>
+                <th class="hide-on-small-only">Tï¿½lï¿½phone</th>
+                <th>Dï¿½tails</th>
               </tr>
             </thead>
             <tbody>
+              <c:forEach items=${membres} var="membre">
+                <tr>
+                    <td>Nom du membre</td>
+                    <h3>${membre.nom}</h3>
+                    <td>Prï¿½nom du membre</td>
+                    <h3>${membre.prenom}</h3>
+                    <td class="hide-on-small-only">Adresse du membre</td>
+                    <h3>${membre.adresse}</h3>
+                    <td class="hide-on-small-only">E-mail du membre</td>
+                    <h3>${membre.email}</h3>
+                    <td class="hide-on-small-only">Tï¿½lï¿½phone du membre</td>
+                    <h3>${membre.telephone}</h3>
+                    <td class="center"><a href="membre_details?id=idDuMembre"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
+                </tr>
+              </c:forEachitems>
 
-              <tr>
-                <td>Nom du membre</td>
-                <td>Prénom du membre</td>
-                <td class="hide-on-small-only">Adresse du membre</td>
-                <td class="hide-on-small-only">E-mail du membre</td>
-                <td class="hide-on-small-only">Téléphone du membre</td>
-                <td class="center"><a href="membre_details?id=idDuMembre"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
-              </tr>
-
-              <!-- TODO : parcourir la liste des membres et les afficher selon la structure d'exemple ci-dessus -->
             </tbody>
           </table>
         </div>
