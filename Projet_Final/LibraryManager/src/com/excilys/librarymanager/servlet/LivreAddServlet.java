@@ -20,47 +20,23 @@ import com.excilys.librarymanager.service.impl.EmpruntService;
 
 public class LivreAddServlet extends HttpServlet {	
 	
-	/*
-	 *  La méthode doGet est le point d'entrée lors d'une requete GET
-	 *  Dans notre cas on traite tous les cas de figure en passant par doGet
-	 *  Cependant pour vraiment respecter les conventions Http, il est de bonne pratique
-	 *  de gérer les suppressions dans la méthode doDelete, les modification dans la méthode
-	 *  doPut etc ...
-	 *  A noter qu'il existe des "logger" pour remplacer nos "Sysout" (System.out.println) qui permettent 
-	 *  de formatter l'affichage lors du débug dans la console (Affichant la date, l'heure, la classe dans 
-	 *  laquelle le logger effectue l'affichage). Plusieurs niveaux d'affichage peuvent être utilisés 
-	 *  (info, debug, error, warn, etc...).
-	 */
+/// A faire : doGet -> ??, renvoyer vers dÃ©tails (attention rÃ©cupÃ©ration de l'identifiant)
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
-        LivreService livreService = livreService.getInstance();
-        //MembreService membreService = membreService.getInstance();
-
-        List<Livre> livres = new ArrayList<>();
-        //List<Membre> membresOk = new ArrayList<>();
-        try {
-			livres = livreService.getList();
-		} catch (ServiceException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-        }
-        /*
-        try {
-			membresOk = MembreService.getListMembreEmpruntPossible();
-		} catch (ServiceException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}*/
-
-        request.setAttribute("Livres", livres);
-        //request.setAttribute("Membres pouvant emprunter", membresOk);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_add.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_add.jsp");
 		dispatcher.forward(request, response);
     }
     
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
 		doGet(request, response);
+		LivreService livreService = livreService.getInstance();
+		String titre = (String) response.getAttribute("titre");
+		String auteur = (String) response.getAttribute("auteur");
+		String isbn = (String) response.getAttribute("isbn");
+		int i=livreService.create(titre,auteur,isbn);
+
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_details.jsp");
 	}
 	
 }
