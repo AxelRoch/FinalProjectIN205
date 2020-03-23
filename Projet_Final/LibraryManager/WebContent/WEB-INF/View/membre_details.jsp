@@ -21,22 +21,22 @@
       </div>
       <div class="row">
       <div class="container">
-      <h5>Détails du membre n°007</h5> <!-- TODO : remplacer 007 par l'id du membre -->
+      <h5>Dï¿½tails du membre ${idDuMembre}</h5> 
         <div class="row">
-	      <form action="/LibraryManager/membre_details?id=idDuMembre" method="post" class="col s12"> <!-- TODO : remplacer idDuMembre par l'id du membre -->
+	      <form action="/LibraryManager/membre_details?id=${idDuMembre}" method="post" class="col s12"> 
 	        <div class="row">
 	          <div class="input-field col s4">
-	            <input id="nom" type="text" value="nomDuMembre" name="nom"> <!-- TODO : remplacer nomDuMembre par le nom du membre -->
+	            <input id="nom" type="text" value=${nom} name="nom"> 
 	            <label for="nom">Nom</label>
 	          </div>
 	          <div class="input-field col s4">
-	            <input id="prenom" type="text" value="prenomDuMembre" name="prenom"> <!-- TODO : remplacer prenomDuMembre par le prénom du membre -->
-	            <label for="prenom">Prénom</label>
+	            <input id="prenom" type="text" value=${prenom} name="prenom"> 
+	            <label for="prenom">Prï¿½nom</label>
 	          </div>
 	          <div class="input-field col s4">
 	            <select name="abonnement" class="browser-default">
-	              <!-- TODO : faire en sorte que l'option correspondant à l'abonnement du membre soit sélectionnée par défaut -->
-	              <!-- Pour cela, vous devez rajouter l'attribut selecter sur la balise <option> concernée -->
+	              <!-- TODO : faire en sorte que l'option correspondant ï¿½ l'abonnement du membre soit sï¿½lectionnï¿½e par dï¿½faut -->
+	              <!-- Pour cela, vous devez rajouter l'attribut selecter sur la balise <option> concernï¿½e -->
 	              <option value="BASIC" ${(membre.abonnement == "BASIC") ? " selected" : ""}>Abonnement BASIC</option>
 	              <option value="PREMIUM" ${(membre.abonnement == "PREMIUM") ? " selected" : ""}>Abonnement PREMIUM</option>
 	              <option value="VIP" ${(membre.abonnement == "VIP") ? " selected" : ""}>Abonnement VIP</option>
@@ -45,18 +45,18 @@
 	        </div>
 	        <div class="row">
 	          <div class="input-field col s12">
-	            <input id="adresse" type="text" value="adresseDuMembre" name="adresse"> <!-- TODO : remplacer adresseDuMembre par l'adresse du membre -->
+	            <input id="adresse" type="text" value=${adresse} name="adresse"> 
 	            <label for="adresse">Adresse</label>
 	          </div>
 	        </div>
 	        <div class="row">
 	          <div class="input-field col s6">
-	            <input id="email" type="email" value="emailDuMembre" name="email"> <!-- TODO : remplacer emailDuMembre par l'email du membre -->
+	            <input id="email" type="email" value=${email} name="email"> 
 	            <label for="email">E-mail</label>
 	          </div>
 	          <div class="input-field col s6">
-	            <input id="telephone" type="tel" value="telephoneDuMembre" name="telephone"> <!-- TODO : remplacer telephoneDuMembre par le téléphone du membre -->
-	            <label for="telephone">Téléphone</label>
+	            <input id="telephone" type="tel" value=${telephone} name="telephone"> 
+	            <label for="telephone">Tï¿½lï¿½phone</label>
 	          </div>
 	        </div>
 	        <div class="row center">
@@ -66,7 +66,7 @@
 	      </form>
 	      
 	      <form action="/LibraryManager/membre_delete" method="get" class="col s12">
-	        <input type="hidden" value="idDuMembre" name="id"> <!-- TODO : remplacer idDuMembre par l'id du membre -->
+	        <input type="hidden" value=${idDuMembre} name="id"> 
 	        <div class="row center">
 	          <button class="btn waves-effect waves-light red" type="submit">Supprimer le membre
 	            <i class="material-icons right">delete</i>
@@ -88,15 +88,16 @@
 
                 <c:forEach var="emprunt" items="${emprunts}">
                 <tr>
-                  <td>Prénom et nom du membre emprunteur</td>
-                  <td>Date de l'emprunt</td>
+				  <td>Prï¿½nom et nom du membre emprunteur</td>
+				  <h3>${emprunt.membre.prenom} ${emprunt.membre.prenom}</h3>
+				  <td>Date de l'emprunt</td>
+				  <h3>${emprunt.dateEmprunt}</h3>
                   <td>
-                    <a href="emprunt_return?id=idDeLEmprunt"><ion-icon class="table-item" name="log-in"></a>
+                    <a href="emprunt_return?id=${idDeLEmprunt}"><ion-icon class="table-item" name="log-in"></a>
                   </td>
                 </tr>
                 </c:forEach>
 
-				<!-- TODO : parcourir la liste des emprunts en cours pour ce membre et les afficher selon la structure d'exemple ci-dessus -->
               </tbody>
             </table>
           </div>
