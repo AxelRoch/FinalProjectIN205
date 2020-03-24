@@ -15,6 +15,7 @@ import com.excilys.librarymanager.modele.Livre;
 import com.excilys.librarymanager.modele.Membre;
 import com.excilys.librarymanager.modele.Emprunt;
 import com.excilys.librarymanager.service.impl.*;
+import com.excilys.librarymanager.exception.*;
 
 public class LivreAddServlet extends HttpServlet {	
 	
@@ -28,13 +29,16 @@ public class LivreAddServlet extends HttpServlet {
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
-		LivreServiceImpl livreService = LivreServiceImpl.getInstance();
-		String titre = request.getParameter("titre");
-		String auteur = request.getParameter("auteur");
-		String isbn = request.getParameter("isbn");
-		int i=livreService.create(titre,auteur,isbn);
+		try{
+			LivreServiceImpl livreService = LivreServiceImpl.getInstance();
+			String titre = request.getParameter("titre");
+			String auteur = request.getParameter("auteur");
+			String isbn = request.getParameter("isbn");
+			int i=livreService.create(titre,auteur,isbn);
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_details.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_details.jsp");
+		}
+		catch(ServiceException e){System.out.println(e.getMessage());}
 	}
 	
 }

@@ -23,7 +23,7 @@ public class LivreServiceImpl implements LivreService {
 
 
     @Override
-    public List<Livre> getList() {
+    public List<Livre> getList() throws ServiceException{
         LivreDao livreDao = livreDao.getInstance();
         List<Livre> livres = new ArrayList<>();		
         try {

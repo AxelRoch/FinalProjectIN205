@@ -9,7 +9,10 @@ import com.excilys.librarymanager.dao.EmpruntDao;
 import com.excilys.librarymanager.modele.Abonnement;
 import com.excilys.librarymanager.persistence.ConnectionManager;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class EmpruntDaoImpl implements EmpruntDao

@@ -30,12 +30,11 @@ public class MembreListServlet extends HttpServlet {
 	 *  (info, debug, error, warn, etc...).
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        MembreService membreService = membreService.getInstance();
-        
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {       
         List<Membre> membres = new ArrayList<>();
 
         try {
+			MembreServiceImpl membreService = MembreServiceImpl.getInstance();
             membres = membreService.getList();
         } catch (ServiceException e) {
             System.out.println(e.getMessage());

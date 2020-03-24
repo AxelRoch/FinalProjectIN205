@@ -18,7 +18,7 @@ public class EmpruntServiceImpl implements EmpruntService {
 
     private static EmpruntServiceImpl instance;
 	private EmpruntServiceImpl() { }	
-	public static EmpruntService getInstance() {
+	public static EmpruntServiceImpl getInstance() {
 		if(instance == null) {
 			instance = new EmpruntServiceImpl();
 		}
@@ -26,7 +26,7 @@ public class EmpruntServiceImpl implements EmpruntService {
 	}
     
     @Override
-    public List<Emprunt> getList() {
+    public List<Emprunt> getList() throws ServiceException {
         EmpruntDaoImpl empruntDao = EmpruntDaoImpl.getInstance();
         List<Emprunt> emprunts = new ArrayList<>();		
         try {

@@ -31,12 +31,12 @@ public class EmpruntReturnServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        EmpruntService empruntService = empruntService.getInstance();
+        EmpruntServiceImpl empruntService = EmpruntServiceImpl.getInstance();
         
         List<Emprunt> emprunts = new ArrayList<>();
 
         try {
-            emprunts = EmpruntService.getListCurrent();
+            emprunts = empruntService.getListCurrent();
         } catch (ServiceException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -50,11 +50,12 @@ public class EmpruntReturnServlet extends HttpServlet {
     }
     
     @Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
-		EmpruntService empruntService = empruntService.getInstance();
-		int idEmprunt = (int) response.getAttribute("idDeLEmprunt");
-		empruntService.returnBook(idEmprunt);
+		EmpruntServiceImpl empruntService = EmpruntServiceImpl.getInstance();
+		int idEmprunt = Integer.parseInt(request.getParameter("id"));
+		try {empruntService.returnBook(idEmprunt);}
+		catch (ServiceException e){System.out.println(e.getMessage());}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/emprunt_list.jsp");
 	}
     

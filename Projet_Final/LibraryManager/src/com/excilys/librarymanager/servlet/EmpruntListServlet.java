@@ -31,15 +31,13 @@ public class EmpruntListServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        EmpruntService empruntService = empruntService.getInstance();
-        
         List<Emprunt> emprunts = new ArrayList<>();
-
         String inputId = request.getParameter("show");
 
         if (inputId=="all"){
             try {
-                emprunts = EmpruntService.getList();
+                EmpruntServiceImpl empruntService = EmpruntServiceImpl.getInstance();
+                emprunts = empruntService.getList();
             } catch (ServiceException e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
@@ -47,7 +45,8 @@ public class EmpruntListServlet extends HttpServlet {
         }
         else {
             try {
-                emprunts = EmpruntService.getListCurrent();
+                EmpruntServiceImpl empruntService = EmpruntServiceImpl.getInstance();
+                emprunts = empruntService.getListCurrent();
             } catch (ServiceException e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();

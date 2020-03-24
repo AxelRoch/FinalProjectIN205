@@ -15,7 +15,7 @@ public class MembreServiceImpl implements MembreService {
 
     private static MembreServiceImpl instance;
 	private MembreServiceImpl() { }	
-	public static MembreService getInstance() {
+	public static MembreServiceImpl getInstance() {
 		if(instance == null) {
 			instance = new MembreServiceImpl();
 		}
@@ -23,8 +23,8 @@ public class MembreServiceImpl implements MembreService {
 	}
     
     @Override
-    public List<Membre> getList() {
-        MembreDao membreDao = membreDao.getInstance();
+    public List<Membre> getList() throws ServiceException{
+        MembreDaoImpl membreDao = MembreDaoImpl.getInstance();
         List<Membre> membres = new ArrayList<>();		
         try {
             membres = membreDao.getList();
@@ -36,7 +36,7 @@ public class MembreServiceImpl implements MembreService {
     
     @Override
     public List<Membre> getListMembreEmpruntPossible() throws ServiceException{    //pas sure 
-        MembreDao membreDao = membreDao.getInstance();
+        MembreDaoImpl membreDao = MembreDaoImpl.getInstance();
         List<Membre> membres = new ArrayList<>();	
         EmpruntServiceImpl empruntService = EmpruntServiceImpl.getInstance();
         try {
@@ -49,11 +49,12 @@ public class MembreServiceImpl implements MembreService {
                 membres.add(membres.get(i));
             }
         }
+        return membres;
     }
     
     @Override
     public Membre getById(int id) throws ServiceException {
-        MembreDao membreDao = membreDao.getInstance();
+        MembreDaoImpl membreDao = MembreDaoImpl.getInstance();
         Membre membre = new Membre();
         try {
             membre = membreDao.getById(id);
@@ -73,7 +74,7 @@ public class MembreServiceImpl implements MembreService {
         {
             throw new ServiceException("Erreur : prenom du membre à preciser");
         }
-		MembreDao membreDao = membreDao.getInstance();
+		MembreDaoImpl membreDao = MembreDaoImpl.getInstance();
 		int i = -1;
 		try {
 			i = membreDao.create(nom.toUpperCase(), prenom, adresse, email, telephone);
@@ -93,7 +94,7 @@ public class MembreServiceImpl implements MembreService {
         {
             throw new ServiceException("Erreur : prenom du membre à preciser");
         }
-		MembreDao membreDao = membreDao.getInstance();
+		MembreDaoImpl membreDao = MembreDaoImpl.getInstance();
 		membre.setNom(membre.getNom().toUpperCase());
 		try {
 			membreDao.update(membre);
@@ -105,7 +106,7 @@ public class MembreServiceImpl implements MembreService {
 
 	@Override
 	public void delete(int id) throws ServiceException {
-		MembreDao membreDao = membreDao.getInstance();
+		MembreDaoImpl membreDao = MembreDaoImpl.getInstance();
 		int i = -1;
 		try {
 			membreDao.delete(id);
@@ -116,7 +117,7 @@ public class MembreServiceImpl implements MembreService {
 
     @Override
     public int count() throws ServiceException{
-        MembreDao membreDao = membreDao.getInstance();
+        MembreDaoImpl membreDao = MembreDaoImpl.getInstance();
 		int i = -1;
 		try {
 			i = membreDao.count();

@@ -1,6 +1,7 @@
 package com.excilys.librarymanager.dao.impl;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import com.excilys.librarymanager.exception.DaoException;
 import com.excilys.librarymanager.modele.Livre;
@@ -8,7 +9,10 @@ import com.excilys.librarymanager.modele.Abonnement;
 import com.excilys.librarymanager.dao.LivreDao;
 import com.excilys.librarymanager.persistence.ConnectionManager;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class LivreDaoImpl implements LivreDao
@@ -114,7 +118,7 @@ public class LivreDaoImpl implements LivreDao
             Livre livre = new Livre(id, titre, auteur, isbn);
 			System.out.println("CREATE: " + livre);
 		} catch (SQLException e) {
-			throw new DaoException("Probleme lors de la creation du livre: " + livre, e);
+			throw new DaoException("Probleme lors de la creation du livre", e);
 		} finally {
 			try {
 				res.close();
@@ -199,12 +203,14 @@ public class LivreDaoImpl implements LivreDao
     public int count() throws DaoException
     {
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet res = null;
+
+		int count = -1;
         
         try {
 			connection = ConnectionManager.getConnection();
             preparedStatement = connection.prepareStatement(COUNT_QUERY);
-            int count = -1;
             
 			res = preparedStatement.executeQuery();
 			if(res.next()) {

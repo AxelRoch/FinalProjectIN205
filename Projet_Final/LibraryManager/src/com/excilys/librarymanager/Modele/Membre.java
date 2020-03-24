@@ -85,7 +85,7 @@ public class Membre {
         return abonnement;
     }
 
-    public void setAbonnement(String email) {
+    public void setAbonnement(Abonnement abonnement) {
 		this.abonnement = abonnement;
 	}
 	

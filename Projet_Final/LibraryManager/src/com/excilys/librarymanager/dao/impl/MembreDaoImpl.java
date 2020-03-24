@@ -1,6 +1,7 @@
 package com.excilys.librarymanager.dao.impl;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import com.excilys.librarymanager.exception.DaoException;
 import com.excilys.librarymanager.modele.Membre;
@@ -8,7 +9,10 @@ import com.excilys.librarymanager.modele.Abonnement;
 import com.excilys.librarymanager.dao.MembreDao;
 import com.excilys.librarymanager.persistence.ConnectionManager;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class MembreDaoImpl implements MembreDao
@@ -70,7 +74,7 @@ public class MembreDaoImpl implements MembreDao
                 membre.setAdresse(res.getString("adresse"));
                 membre.setEmail(res.getString("email"));
 				membre.setTelephone(res.getString("telephone"));
-				membre.setAbonnment(Abonnement.valueOf(res.getString("abonnement")));							
+				membre.setAbonnement(Abonnement.valueOf(res.getString("abonnement")));							
 			}
 			
 			System.out.println("GET: " + membre);
@@ -97,7 +101,7 @@ public class MembreDaoImpl implements MembreDao
     }
 
     @Override
-    public int create(String nom, String prenom, String adresse, String email, String telephone, Abonnement abonnement) throws DaoException
+    public int create(String nom, String prenom, String adresse, String email, String telephone) throws DaoException
     {
         ResultSet res = null;
 		Connection connection = null;
@@ -112,16 +116,16 @@ public class MembreDaoImpl implements MembreDao
             preparedStatement.setString(3, adresse);
             preparedStatement.setString(4, email);
             preparedStatement.setString(5, telephone);
-			preparedStatement.setString(6, abonnement.name());
+			preparedStatement.setString(6, Abonnement.BASIC.name());
 			preparedStatement.executeUpdate();
 			res = preparedStatement.getGeneratedKeys();
 			if(res.next()){
 				id = res.getInt(1);				
 			}
-            Membre membre = new Membre(id, nom, prenom, adresse, email, telephone, abonnement);
+            Membre membre = new Membre(id, nom, prenom, adresse, email, telephone, Abonnement.BASIC);
 			System.out.println("CREATE: " + membre);
 		} catch (SQLException e) {
-			throw new DaoException("Probleme lors de la creation du membre: " + membre, e);
+			throw new DaoException("Probleme lors de la creation du membre", e);
 		} finally {
 			try {
 				res.close();
@@ -156,7 +160,7 @@ public class MembreDaoImpl implements MembreDao
             preparedStatement.setString(4, membre.getEmail());
             preparedStatement.setString(5, membre.getTelephone());
             preparedStatement.setString(6, membre.getAbonnement().name());
-            preparedStatement.setString(7, membre.getId());
+            preparedStatement.setInt(7, membre.getId());
 			preparedStatement.executeUpdate();
 
 			System.out.println("UPDATE: " + membre);
@@ -209,12 +213,13 @@ public class MembreDaoImpl implements MembreDao
     public int count() throws DaoException
     {
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet res = null;
+		int count = -1;
         
         try {
 			connection = ConnectionManager.getConnection();
             preparedStatement = connection.prepareStatement(COUNT_QUERY);
-            int count = -1;
             
 			res = preparedStatement.executeQuery();
 			if(res.next()) {

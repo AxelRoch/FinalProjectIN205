@@ -30,11 +30,11 @@ public class LivreDetailsServlet extends HttpServlet {
 	 *  (info, debug, error, warn, etc...).
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int id =(int) request.getAttribute("idDuLivre");
-		LivreService livreService =livreService.getInstance();
-		EmpruntService empruntService =empruntService.getInstance();
-		Livre livre=livreService.getById(idDuLivre);
+		LivreServiceImpl livreService = LivreServiceImpl.getInstance();
+		EmpruntServiceImpl empruntService = EmpruntServiceImpl.getInstance();
+		Livre livre=livreService.getById(id);
 
 		List<Emprunt> emprunts = new ArrayList<>();
 		emprunts=empruntService.getListCurrentByLivre(id);
@@ -49,13 +49,13 @@ public class LivreDetailsServlet extends HttpServlet {
     }
     
     @Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
-		LivreService livreService = livreService.getInstance();
-		int idDuLivre = (int) response.getAttribute("idDuLivre");
-		String titre = (String) response.getAttribute("Titre");
-		String auteur = (String) response.getAttribute("Auteur");
-		String isbn = (String) response.getAttribute("Isbn");
+		LivreServiceImpl livreService = LivreServiceImpl.getInstance();
+		int idDuLivre = Integer.parseInt(request.getParameter(("idDuLivre")));
+		String titre =  request.getParameter("Titre");
+		String auteur = request.getParameter("Auteur");
+		String isbn =  request.getParameter("Isbn");
 		Livre livre = new livre();
 		livre.setLivre(idDuLivre);
 		livre.setTitre(titre);
