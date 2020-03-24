@@ -1,4 +1,4 @@
-package com.excilys.librarymanager.Modele;
+package com.excilys.librarymanager.modele;
 
 
 public enum Abonnement{

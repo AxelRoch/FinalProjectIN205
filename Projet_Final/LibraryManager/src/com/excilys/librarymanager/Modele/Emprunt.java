@@ -1,4 +1,4 @@
-package com.excilys.librarymanager.Modele;
+package com.excilys.librarymanager.modele;
 
 import java.sql.Date;
 
@@ -16,7 +16,7 @@ public class Emprunt {
 	public Emprunt(Membre membre, Livre livre, Date dateEmprunt, Date dateRetour) {
 		this();
 		this.membre = membre;
-		this.livre : livre;
+		this.livre = livre;
 		this.dateEmprunt = dateEmprunt;
 		this.dateRetour = dateRetour;
 	}
@@ -49,7 +49,7 @@ public class Emprunt {
 	public void setDateEmprunt(Date dateEmprunt) {
 		this.dateEmprunt = dateEmprunt;
 	}
-	public String getDateRetour() {
+	public Date getDateRetour() {
 		return dateRetour;
 	}
 	public void setDateRetour(Date dateRetour) {
