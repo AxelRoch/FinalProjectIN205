@@ -32,25 +32,30 @@ public class LivreDeleteServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int idDuLivre = (int) request.getAttribute("idDuLivre");
-		LivreService livreService = livreService.getInstance();
-		Livre livre = livreService.getById(idDuLivre);
-		request.setAttribute("idDuLivre", idDuLivre);
-		request.setAttribute("titre", livre->titre);
-		request.setAttribute("auteur", livre->auteur);
-		request.setAttribute("isbn", livre->isbn);
+		try{
+			LivreServiceImpl livreService = LivreServiceImpl.getInstance();
+			Livre livre = livreService.getById(idDuLivre);
+			request.setAttribute("idDuLivre", idDuLivre);
+			request.setAttribute("titre", livre.getTitre());
+			request.setAttribute("auteur", livre.getAuteur());
+			request.setAttribute("isbn", livre.getIsbn());
+		}
+		catch (ServiceException e){System.out.println(e.getMessage());}
+
         
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_delete.jsp");
 		dispatcher.forward(request, response);
-
     }
     
     @Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException {
 		doGet(request, response);
 		int idDuLivre = (int) request.getAttribute("idDuLivre");
-		LivreService livreService = livreService.getInstance();
-		int i=livreService.delete(idDuLivre);
-		//if i =!-1 ... ?
+		try {
+			LivreServiceImpl livreService = LivreServiceImpl.getInstance();
+			livreService.delete(idDuLivre);
+		}
+		catch (ServiceException e){System.out.println(e.getMessage());}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_list.jsp");
 
 	}

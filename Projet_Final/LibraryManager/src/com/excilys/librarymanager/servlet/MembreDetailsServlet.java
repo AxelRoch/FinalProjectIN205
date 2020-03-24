@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.librarymanager.exception.ServiceException;
-import com.excilys.librarymanager.modele.Livre;
-import com.excilys.librarymanager.modele.Membre;
-import com.excilys.librarymanager.modele.Emprunt;
+import com.excilys.librarymanager.modele.*;
 import com.excilys.librarymanager.service.impl.*;
 
 public class MembreDetailsServlet extends HttpServlet {	
@@ -30,48 +28,54 @@ public class MembreDetailsServlet extends HttpServlet {
 	 *  (info, debug, error, warn, etc...).
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
-		int id =(int) request.getAttribute("idDuMembre");
-		MembreService membreService = membreService.getInstance();
-		EmpruntService empruntService =empruntService.getInstance();
-		Membre membre=membreService.getById(idDuMembre);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try{
+			int id =(int) request.getAttribute("id");
+			MembreServiceImpl membreService = MembreServiceImpl.getInstance();
+			EmpruntServiceImpl empruntService = EmpruntServiceImpl.getInstance();
+			Membre membre = membreService.getById(id);
 
-		List<Emprunt> emprunts = new ArrayList<>();
-		emprunts=empruntService.getListCurrentByMembre(id);
+			List<Emprunt> emprunts = new ArrayList<>();
+			emprunts=empruntService.getListCurrentByMembre(id);
 
-		request.setAttribute("idDuMembre", membre->id);
-        request.setAttribute("prenom", membre->prenom);
-        request.setAttribute("nom", membre->nom);
-        request.setAttribute("adresse", membre->adresse);
-        request.setAttribute("email", membre->email);
-        request.setAttribute("telephone", membre->telephone);
-        request.setAttribute("abonnement", membre->abonnement);
-        request.setAttribute("emprunts", emprunts); 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_details.jsp");
-		dispatcher.forward(request, response);
-    }
+			request.setAttribute("idDuMembre", membre.getId());
+			request.setAttribute("prenom", membre.getPrenom());
+			request.setAttribute("nom", membre.getNom());
+			request.setAttribute("adresse", membre.getAdresse());
+			request.setAttribute("email", membre.getEmail());
+			request.setAttribute("telephone", membre.getTelephone());
+			request.setAttribute("abonnement", membre.getAbonnement());
+			request.setAttribute("emprunts", emprunts); 
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_details.jsp");
+			dispatcher.forward(request, response);
+		}
+		catch (ServiceException e){System.out.println(e.getMessage());}
+	}
     
     @Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
-		MembreService membreService = membreService.getInstance();
 		
-		int idDuMembre = (int) response.getAttribute("idDuMembre");
-		String prenom = (String) response.getAttribute("prenom");
-		String nom = (String) response.getAttribute("nom");
-        String adresse = (String) response.getAttribute("adresse");
-        String email = (String) response.getAttribute("email");
-        String telephone = (String) response.getAttribute("telephone");
-        Abonnement abonnement = (Abonnement) response.getAttribute("abonnement");
+		int idDuMembre = Integer.parseInt( request.getParameter("id") );
+		String prenom =  request.getParameter("prenom");
+		String nom =  request.getParameter("nom");
+        String adresse =  request.getParameter("adresse");
+        String email = request.getParameter("email");
+        String telephone = request.getParameter("telephone");
+        Abonnement abonnement = Abonnement.valueOf(request.getParameter("abonnement"));
 		Membre membre = new Membre();
 		membre.setId(idDuMembre);
 		membre.setPrenom(prenom);
 		membre.setNom(nom);
         membre.setAdresse(adresse);
         membre.setEmail(email);
-        membbre.setTelephone(telephone);
-        membre.setAbonnement(abonnement);
-		membreService.update(membre);
+        membre.setTelephone(telephone);
+		membre.setAbonnement(abonnement);
+		try{
+			MembreServiceImpl membreService = MembreServiceImpl.getInstance();
+			membreService.update(membre);
+		}
+		catch (ServiceException e){System.out.println(e.getMessage());}
 	}
 	
 }

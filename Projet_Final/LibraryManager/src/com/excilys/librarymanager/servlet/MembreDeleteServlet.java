@@ -32,22 +32,27 @@ public class MembreDeleteServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int idDuMembre = (int) request.getAttribute("idDuMembre");
-		MembreService membreService = membreService.getInstance();
-		Membre membre = membreService.getById(idDuMembre);
-		request.setAttribute("membre", membre);
-        
+		try{
+			MembreServiceImpl membreService = MembreServiceImpl.getInstance();
+			Membre membre = membreService.getById(idDuMembre);
+			request.setAttribute("membre", membre);
+		}
+		catch (ServiceException e){System.out.println(e.getMessage());}
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_delete.jsp");
 		dispatcher.forward(request, response);
 
     }
     
     @Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 		int idDuMembre = (int) request.getAttribute("id");
-		MembreService membreService = membreService.getInstance();
-		int i=membreService.delete(idDuMembre);
-		//if i =!-1 ... ?
+		try{
+			MembreServiceImpl membreService = MembreServiceImpl.getInstance();
+			membreService.delete(idDuMembre);
+		}
+		catch (ServiceException e){System.out.println(e.getMessage());}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/membre_list.jsp");
 
 	}

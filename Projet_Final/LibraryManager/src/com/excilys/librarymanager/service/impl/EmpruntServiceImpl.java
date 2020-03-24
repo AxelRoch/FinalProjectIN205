@@ -98,19 +98,14 @@ public class EmpruntServiceImpl implements EmpruntService {
     
     @Override
     public void returnBook(int id) throws ServiceException{
-        EmpruntDao empruntDao = empruntDaoImpl.getInstance();
+        EmpruntDaoImpl empruntDao = EmpruntDaoImpl.getInstance();
         Emprunt emprunt = new Emprunt();
         try {
             emprunt = empruntDao.getById(id);
-            
-		}  catch (DaoException e1) {
-			System.out.println(e1.getMessage());			
-        } 
         
-        emprunt.setDateRetour(LocalDate.now());
-        dao.update(emprunt);
+            emprunt.setDateRetour(LocalDate.now());
+            empruntDao.update(emprunt);
 
-        try {
 			empruntDao.update(emprunt);
 		}  catch (DaoException e1) {
 			System.out.println(e1.getMessage());			
@@ -144,24 +139,24 @@ public class EmpruntServiceImpl implements EmpruntService {
 
     @Override
     public boolean isEmpruntPossible(Membre membre) throws ServiceException{
-        EmpruntDao empruntDao = empruntDao.getInstance();
+        EmpruntDaoImpl empruntDao = EmpruntDaoImpl.getInstance();
         List<Emprunt> emprunts = new ArrayList<>();
-        //MembreDao membreDao =membreDao.getInstance();
+        int nbEmprunts = 0;
+        int nbMax = -1;
 
-        int nbMax;
         try {
 			nbEmprunts = empruntDao.getListCurrentByMembre(membre.getId()).size();
 		} catch (DaoException e1) {
 			System.out.println(e1.getMessage());			
         }
         switch (membre.getAbonnement()){
-            case "BASIC" :
+            case BASIC :
                 nbMax = 2;
                 break;
-            case "PREMIUM" :
+            case PREMIUM :
                 nbMax = 5;
                 break;
-            case "VIP" :
+            case VIP :
                 nbMax = 20;
                 break;
         }

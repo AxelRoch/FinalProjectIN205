@@ -30,37 +30,39 @@ public class DashboardServlet extends HttpServlet {
 	 *  (info, debug, error, warn, etc...).
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
-        LivreService livreService = livreService.getInstance();
-        MembreService membreService = membreService.getInstance();
-        EmpruntService empruntService = empruntService.getInstance();
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        LivreServiceImpl livreService = LivreServiceImpl.getInstance();
+        MembreServiceImpl membreService = MembreServiceImpl.getInstance();
+        EmpruntServiceImpl empruntService = EmpruntServiceImpl.getInstance();
         
         List<Emprunt> emprunts = new ArrayList<>();
-        int nbLivres,nbMembres,nbEmprunts;
+		int nbLivres = 0;
+		int nbMembres = 0;
+		int nbEmprunts = 0;
         
 		try {
-			emprunts = EmpruntService.getListCurrent();
+			emprunts = empruntService.getListCurrent();
 		} catch (ServiceException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 
 		try {
-			nbEmprunts = EmpruntService.count();
+			nbEmprunts = empruntService.count();
 		} catch (ServiceException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 
 		try {
-			nbLivres = LivreService.count();
+			nbLivres = livreService.count();
 		} catch (ServiceException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 
         try {
-			nbMembres = MembresService.count();
+			nbMembres = membreService.count();
 		} catch (ServiceException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

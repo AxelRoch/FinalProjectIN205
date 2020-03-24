@@ -24,7 +24,7 @@ public class LivreServiceImpl implements LivreService {
 
     @Override
     public List<Livre> getList() throws ServiceException{
-        LivreDao livreDao = livreDao.getInstance();
+        LivreDaoImpl livreDao = LivreDaoImpl.getInstance();
         List<Livre> livres = new ArrayList<>();		
         try {
             livres = livreDao.getList();
@@ -57,7 +57,7 @@ public class LivreServiceImpl implements LivreService {
     
     @Override
     public Livre getById(int id) throws ServiceException {
-        LivreDao livreDao = livreDao.getInstance();
+        LivreDaoImpl livreDao = LivreDaoImpl.getInstance();
         Livre livre = new Livre();
         try {
             livre = livreDao.getById(id);
@@ -73,7 +73,7 @@ public class LivreServiceImpl implements LivreService {
         {
             throw new ServiceException("Erreur : Titre du Livre à preciser");
         }
-		LivreDao livreDao = livreDao.getInstance();
+		LivreDaoImpl livreDao = LivreDaoImpl.getInstance();
 		int i = -1;
 		try {
 			i = livreDao.create(titre, auteur, isbn);
@@ -90,7 +90,7 @@ public class LivreServiceImpl implements LivreService {
             throw new ServiceException("Erreur : Titre du Livre à preciser");
         }
 		try {
-			LivreDao livreDao = livreDao.getInstance();
+			LivreDaoImpl livreDao = LivreDaoImpl.getInstance();
 			livreDao.update(livre);
 		} catch (DaoException e1) {
 			System.out.println(e1.getMessage());			
@@ -102,7 +102,7 @@ public class LivreServiceImpl implements LivreService {
 	public void delete(int id) throws ServiceException {
 		
 		try {
-			LivreDao livreDao = livreDao.getInstance();
+			LivreDaoImpl livreDao = LivreDaoImpl.getInstance();
 			livreDao.delete(id);
 		} catch (DaoException e1) {
 			System.out.println(e1.getMessage());			
@@ -113,7 +113,7 @@ public class LivreServiceImpl implements LivreService {
     public int count() throws ServiceException{
 		int i = -1;
 		try {
-			LivreDao livreDao = livreDao.getInstance();
+			LivreDaoImpl livreDao = LivreDaoImpl.getInstance();
 			i = livreDao.count();
 		} catch (DaoException e1) {
 			System.out.println(e1.getMessage());			

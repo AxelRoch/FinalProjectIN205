@@ -32,36 +32,41 @@ public class LivreDetailsServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int id =(int) request.getAttribute("idDuLivre");
-		LivreServiceImpl livreService = LivreServiceImpl.getInstance();
-		EmpruntServiceImpl empruntService = EmpruntServiceImpl.getInstance();
-		Livre livre=livreService.getById(id);
-
 		List<Emprunt> emprunts = new ArrayList<>();
-		emprunts=empruntService.getListCurrentByLivre(id);
 
-		request.setAttribute("idDuLivre", livre.getId());
-        request.setAttribute("Titre", livre.getTitre());
-        request.setAttribute("Auteur", livre.getAuteur());
-        request.setAttribute("Isbn", livre.getIsbn());
-        request.setAttribute("emprunts", emprunts); 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_details.jsp");
-		dispatcher.forward(request, response);
+		try{
+			LivreServiceImpl livreService = LivreServiceImpl.getInstance();
+			EmpruntServiceImpl empruntService = EmpruntServiceImpl.getInstance();
+			Livre livre=livreService.getById(id);
+			emprunts=empruntService.getListCurrentByLivre(id);
+
+			request.setAttribute("idDuLivre", livre.getId());
+			request.setAttribute("Titre", livre.getTitre());
+			request.setAttribute("Auteur", livre.getAuteur());
+			request.setAttribute("Isbn", livre.getIsbn());
+			request.setAttribute("emprunts", emprunts); 
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/livre_details.jsp");
+			dispatcher.forward(request, response);
+		}
+		catch (ServiceException e){System.out.println(e.getMessage());}
     }
     
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
-		LivreServiceImpl livreService = LivreServiceImpl.getInstance();
-		int idDuLivre = Integer.parseInt(request.getParameter(("idDuLivre")));
-		String titre =  request.getParameter("Titre");
-		String auteur = request.getParameter("Auteur");
-		String isbn =  request.getParameter("Isbn");
-		Livre livre = new livre();
-		livre.setLivre(idDuLivre);
-		livre.setTitre(titre);
-		livre.setAuteur()= auteur;
-		livrefetIsbn() =isbn;
-		livreService.update(livre);
-	}
-	
+		try{
+			LivreServiceImpl livreService = LivreServiceImpl.getInstance();
+			int idDuLivre = Integer.parseInt(request.getParameter(("idDuLivre")));
+			String titre =  request.getParameter("Titre");
+			String auteur = request.getParameter("Auteur");
+			String isbn =  request.getParameter("Isbn");
+			Livre livre = new Livre();
+			livre.setId(idDuLivre);
+			livre.setTitre(titre);
+			livre.setAuteur(auteur);
+			livre.setIsbn(isbn);
+			livreService.update(livre);
+		}
+		catch (ServiceException e){System.out.println(e.getMessage());}
+    }
 }

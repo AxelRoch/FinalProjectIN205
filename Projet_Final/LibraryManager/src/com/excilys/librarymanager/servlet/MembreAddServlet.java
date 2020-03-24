@@ -19,7 +19,7 @@ import com.excilys.librarymanager.service.*;
 
 public class MembreAddServlet extends HttpServlet {	
 	
-/// A faire : doGet -> ??, renvoyer vers détails (attention récupération de l'identifiant)
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/membre_add.jsp");

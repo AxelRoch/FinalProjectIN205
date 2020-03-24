@@ -2,11 +2,11 @@ package com.excilys.librarymanager.dao.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
 
 import com.excilys.librarymanager.exception.DaoException;
-import com.excilys.librarymanager.modele.Emprunt;
+import com.excilys.librarymanager.modele.*;
 import com.excilys.librarymanager.dao.EmpruntDao;
-import com.excilys.librarymanager.modele.Abonnement;
 import com.excilys.librarymanager.persistence.ConnectionManager;
 
 import java.sql.Connection;
@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Date;
 
 public class EmpruntDaoImpl implements EmpruntDao
 {
@@ -42,7 +43,6 @@ public class EmpruntDaoImpl implements EmpruntDao
 		List<Emprunt> emprunts = new ArrayList<>();
 		MembreDaoImpl dataMembres = MembreDaoImpl.getInstance();
 		LivreDaoImpl dataLivres = LivreDaoImpl.getInstance();
-		dataMembres.getById(id);
 		try (Connection connection = ConnectionManager.getConnection();
 			 PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_QUERY);
 			 ResultSet res = preparedStatement.executeQuery();
@@ -54,7 +54,7 @@ public class EmpruntDaoImpl implements EmpruntDao
 
 				Livre livre = new Livre(res.getInt("idLivre"),  res.getString("titre"), res.getString("auteur"), res.getString("isbn"));
 
-				Emprunt emprunt = new Emprunt(res.getInt("id"), membre, livre, res.getDate("dateEmprunt", res.getDate("dateRetour")));
+				Emprunt emprunt = new Emprunt(res.getInt("id"), membre, livre, res.getDate("dateEmprunt").toLocalDate(), res.getDate("dateRetour").toLocalDate());
 				emprunts.add(emprunt);
 			}
 			System.out.println("GET: " + emprunts);
@@ -71,7 +71,6 @@ public class EmpruntDaoImpl implements EmpruntDao
 		List<Emprunt> emprunts = new ArrayList<>();
 		MembreDaoImpl dataMembres = MembreDaoImpl.getInstance();
 		LivreDaoImpl dataLivres = LivreDaoImpl.getInstance();
-		dataMembres.getById(id);
 		try (Connection connection = ConnectionManager.getConnection();
 			 PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CURRENT_QUERY);
 			 ResultSet res = preparedStatement.executeQuery();
@@ -83,7 +82,7 @@ public class EmpruntDaoImpl implements EmpruntDao
 
 				Livre livre = new Livre(res.getInt("idLivre"),  res.getString("titre"), res.getString("auteur"), res.getString("isbn"));
 
-				Emprunt emprunt = new Emprunt(res.getInt("id"), membre, livre, res.getDate("dateEmprunt", res.getDate("dateRetour")));
+				Emprunt emprunt = new Emprunt(res.getInt("id"), membre, livre, res.getDate("dateEmprunt").toLocalDate(), res.getDate("dateRetour").toLocalDate());
 				emprunts.add(emprunt);
 			}
 			System.out.println("GET: " + emprunts);
@@ -113,7 +112,7 @@ public class EmpruntDaoImpl implements EmpruntDao
 
 				Livre livre = new Livre(res.getInt("idLivre"),  res.getString("titre"), res.getString("auteur"), res.getString("isbn"));
 
-				Emprunt emprunt = new Emprunt(res.getInt("id"), membre, livre, res.getDate("dateEmprunt", res.getDate("dateRetour")));
+				Emprunt emprunt = new Emprunt(res.getInt("id"), membre, livre, res.getDate("dateEmprunt").toLocalDate(), res.getDate("dateRetour").toLocalDate());
 				emprunts.add(emprunt);
 			}
 			System.out.println("GET: " + emprunts);
@@ -144,7 +143,7 @@ public class EmpruntDaoImpl implements EmpruntDao
 
 				Livre livre = new Livre(res.getInt("idLivre"),  res.getString("titre"), res.getString("auteur"), res.getString("isbn"));
 
-				Emprunt emprunt = new Emprunt(res.getInt("id"), membre, livre, res.getDate("dateEmprunt", res.getDate("dateRetour")));
+				Emprunt emprunt = new Emprunt(res.getInt("id"), membre, livre, res.getDate("dateEmprunt").toLocalDate(), res.getDate("dateRetour").toLocalDate());
 				emprunts.add(emprunt);
 			}
 			System.out.println("GET: " + emprunts);
@@ -159,7 +158,7 @@ public class EmpruntDaoImpl implements EmpruntDao
 	@Override
 	public Emprunt getById(int id) throws DaoException
 	{
-		com.excilys.librarymanager.Modele.Emprunt emprunt = new Emprunt();
+		Emprunt emprunt = new Emprunt();
 		ResultSet res = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -177,8 +176,8 @@ public class EmpruntDaoImpl implements EmpruntDao
 				emprunt.setId(res.getInt(id));
 				emprunt.setmembre(membre);
 				emprunt.setlivre(livre);
-				emprunt.setDateEmprunt(res.getDate("dateEmprunt"));
-				emprunt.setDateRetour(res.getDate("dateRetour"));				
+				emprunt.setDateEmprunt(res.getDate("dateEmprunt").toLocalDate());
+				emprunt.setDateRetour(res.getDate("dateRetour").toLocalDate());				
 			}
 			
 			System.out.println("GET: " + emprunt);
@@ -216,9 +215,9 @@ public class EmpruntDaoImpl implements EmpruntDao
 			connection =  ConnectionManager.getConnection();
             preparedStatement = connection.prepareStatement(CREATE_QUERY, Statement.RETURN_GENERATED_KEYS);
             
-			preparedStatement.setString(1, idMembre);
-            preparedStatement.setString(2, idLivre);
-            preparedStatement.setString(3, dateEmprunt);
+			preparedStatement.setInt(1, idMembre);
+            preparedStatement.setInt(2, idLivre);
+            preparedStatement.setDate(3, java.sql.Date.valueOf(dateEmprunt));
             preparedStatement.setString(4, null);
 			preparedStatement.executeUpdate();
 			res = preparedStatement.getGeneratedKeys();
@@ -259,11 +258,11 @@ public class EmpruntDaoImpl implements EmpruntDao
 		try {
 			connection =  ConnectionManager.getConnection();
 			preparedStatement = connection.prepareStatement(UPDATE_QUERY);
-			preparedStatement.setString(1, emprunt.getmembre().getId());
-            preparedStatement.setString(2, emprunt.getlivre().getId());
-            preparedStatement.setString(3, emprunt.getDateEmprunt());
-            preparedStatement.setString(4, emprunt.getDateRetour());
-            preparedStatement.setString(5, emprunt.getId());
+			preparedStatement.setInt(1, emprunt.getmembre().getId());
+            preparedStatement.setInt(2, emprunt.getlivre().getId());
+            preparedStatement.setDate(3, java.sql.Date.valueOf(emprunt.getDateEmprunt()));
+            preparedStatement.setDate(4, java.sql.Date.valueOf(emprunt.getDateRetour()));
+            preparedStatement.setInt(5, emprunt.getId());
 			preparedStatement.executeUpdate();
 
 			System.out.println("UPDATE: " + emprunt);
@@ -290,12 +289,13 @@ public class EmpruntDaoImpl implements EmpruntDao
 	public int count() throws DaoException
 	{
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet res = null;
+		int count = -1;
         
         try {
 			connection = ConnectionManager.getConnection();
             preparedStatement = connection.prepareStatement(COUNT_QUERY);
-            int count = -1;
             
 			res = preparedStatement.executeQuery();
 			if(res.next()) {

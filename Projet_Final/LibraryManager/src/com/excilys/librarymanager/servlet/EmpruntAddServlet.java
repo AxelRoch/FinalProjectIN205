@@ -16,6 +16,9 @@ import com.excilys.librarymanager.modele.Membre;
 import com.excilys.librarymanager.modele.Emprunt;
 import com.excilys.librarymanager.service.impl.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 public class EmpruntAddServlet extends HttpServlet {	
 	
 	/*
@@ -30,9 +33,9 @@ public class EmpruntAddServlet extends HttpServlet {
 	 *  (info, debug, error, warn, etc...).
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
-        LivreService livreService = livreService.getInstance();
-        MembreService membreService = membreService.getInstance();
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        LivreServiceImpl livreService = LivreServiceImpl.getInstance();
+        MembreServiceImpl membreService = MembreServiceImpl.getInstance();
 
         List<Livre> livresDispo = new ArrayList<>();
         List<Membre> membresOk = new ArrayList<>();
@@ -44,7 +47,7 @@ public class EmpruntAddServlet extends HttpServlet {
         }
 
         try {
-			membresOk = MembreService.getListMembreEmpruntPossible();
+			membresOk = membreService.getListMembreEmpruntPossible();
 		} catch (ServiceException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
@@ -57,13 +60,16 @@ public class EmpruntAddServlet extends HttpServlet {
     	}
     
     	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, ServiceException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
-		EmpruntService empruntService=empruntService.getInstance();
-		int idDuMembre = (int) response.getAttribute("idDuMembre");
-		int idDuLivre = (int) response.getAttribute("idDuLivre");
-		LocalDate dateEmprunt= new LocalDate();
-		empruntService.create(idDuMembre,idDuLivre,dateEmprunt);
+		EmpruntServiceImpl empruntService= EmpruntServiceImpl.getInstance();
+		int idDuMembre = Integer.parseInt(request.getParameter("idMembre"));
+		int idDuLivre = Integer.parseInt(request.getParameter("idLivre"));
+		LocalDate dateEmprunt= LocalDate.parse(request.getParameter("dateEmprunt"));
+		try{
+			empruntService.create(idDuMembre,idDuLivre,dateEmprunt);
+		}
+		catch (ServiceException e){System.out.println(e.getMessage());}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/emprunt_list.jsp");
 	}
 	

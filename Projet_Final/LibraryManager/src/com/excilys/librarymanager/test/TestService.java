@@ -22,10 +22,14 @@ public class TestService{
 
         Emprunt emprunt = new Emprunt(0001, alizee, livre, LocalDate.of(2019,11,1), LocalDate.of(2020,03,24));
 
+        MembreServiceImpl serviceMembres = MembreServiceImpl.getInstance();
+        LivreServiceImpl serviceLivres = LivreServiceImpl.getInstance();
+        EmpruntServiceImpl serviceEmprunts = EmpruntServiceImpl.getInstance();
+
         try {
             serviceMembres.create(alizee.getNom(), alizee.getPrenom(), alizee.getAdresse(), alizee.getEmail(),alizee.getTelephone());
             serviceLivres.create(livre.getTitre(), livre.getAuteur(), livre.getIsbn());
-            serviceEmprunts.create(emprunt.getMembre().getId(), emprunt.getLivre().getId(), emprunt.getDateEmprunt());
+            serviceEmprunts.create(emprunt.getmembre().getId(), emprunt.getlivre().getId(), emprunt.getDateEmprunt());
             serviceEmprunts.getListCurrent();
             serviceEmprunts.returnBook(emprunt.getId());
             serviceLivres.getList();

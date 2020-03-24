@@ -3,8 +3,7 @@ package com.excilys.librarymanager.test;
 import com.excilys.librarymanager.dao.impl.*;
 import com.excilys.librarymanager.dao.*;
 import com.excilys.librarymanager.modele.*;
-
-import com.excilys.librarymanager.exception.DaoException;
+import com.excilys.librarymanager.exception.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -31,12 +30,12 @@ public class TestDao
         try {
             daoMembres.create(alizee.getNom(), alizee.getPrenom(), alizee.getAdresse(), alizee.getEmail(),alizee.getTelephone());
             daoLivres.create(livre.getTitre(), livre.getAuteur(), livre.getIsbn());
-            daoEmprunts.create(emprunt.getMembre().getId(), emprunt.getLivre().getId(), emprunt.getDateEmprunt());
+            daoEmprunts.create(emprunt.getmembre().getId(), emprunt.getlivre().getId(), emprunt.getDateEmprunt());
             daoEmprunts.getListCurrent();
             daoEmprunts.getList();
             daoLivres.getList();
             daoMembres.getList();
-        } catch (ServiceException error) {
+        } catch (DaoException error) {
         }
     }
 }
