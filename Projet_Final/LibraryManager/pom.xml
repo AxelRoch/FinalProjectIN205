@@ -50,7 +50,7 @@
       <dependency>
           <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
-        <version>1.4.197</version> <!-- Si vous utilisez Java 6, utilisez la version 1.4.191 -->
+        <version>2.0.206</version> <!-- Si vous utilisez Java 6, utilisez la version 1.4.191 -->
       </dependency>
   </dependencies>
 </project>
